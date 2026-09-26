@@ -4,6 +4,7 @@ from pathlib import Path
 from urllib.parse import urlparse, parse_qs, unquote
 from urllib.request import Request, urlopen
 import json
+import os
 import re
 import sqlite3
 import threading
@@ -651,5 +652,7 @@ class Handler(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     threading.Thread(target=refresh, daemon=True).start()
     threading.Thread(target=scheduler, daemon=True).start()
-    print("Open http://127.0.0.1:8765")
-    ThreadingHTTPServer(("127.0.0.1", 8765), Handler).serve_forever()
+    port = int(os.environ.get("PORT", "8765"))
+    host = os.environ.get("STREAMLAB_HOST", "0.0.0.0" if "PORT" in os.environ else "127.0.0.1")
+    print(f"Open http://{host}:{port}")
+    ThreadingHTTPServer((host, port), Handler).serve_forever()

@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+catalog-cache.sqlite3
+catalog-cache.sqlite3-*
+public/
+.env
